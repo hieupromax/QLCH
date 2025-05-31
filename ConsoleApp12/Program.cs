@@ -1,7 +1,6 @@
 ﻿using StoreManagement.Models;
 using System.Text.RegularExpressions;
-
-
+using OfficeOpenXml;
 class Program
 {
     static List<Employee> employees = new();
@@ -109,36 +108,36 @@ class Program
     static void CustomerPurchase()
     {
         Console.Write("Enter Customer Name: ");
-        string name = Console.ReadLine();
+        string name = Console.ReadLine() ?? "";
         while (string.IsNullOrEmpty(name))
         {
             Console.Write("Invalid name. Re-enter: ");
-            name = Console.ReadLine();
+            name = Console.ReadLine() ?? "";
         }
 
         var customer = customers.Find(c => c.Name == name);
         if (customer == null)
         {
             Console.Write("Customer not found. Enter Phone (10 digits): ");
-            string phone = Console.ReadLine();
+            string phone = Console.ReadLine() ?? "";
             while (!ValidatePhone(phone))
             {
                 Console.Write("Invalid phone. Re-enter: ");
-                phone = Console.ReadLine();
+                phone = Console.ReadLine() ?? "";
             }
             Console.Write("Shipping Address: ");
-            string address = Console.ReadLine();
+            string address = Console.ReadLine() ?? "";
             while (!ValidateAddress(address))
             {
                 Console.Write("Invalid address. Re-enter: ");
-                address = Console.ReadLine();
+                address = Console.ReadLine() ?? "";
             }
             Console.Write("Email: ");
-            string email = Console.ReadLine();
+            string email = Console.ReadLine() ?? "";
             while (!ValidateEmail(email))
             {
                 Console.Write("Invalid email. Re-enter(xxx@xxx.xx): ");
-                email = Console.ReadLine();
+                email = Console.ReadLine() ?? "";
             }
             customer = new Customer { Name = name, Phone = phone, Address = address, Email = email };
             customers.Add(customer);
@@ -159,7 +158,7 @@ class Program
         while (true)
         {
             Console.Write("Enter Product Name (or 'done'): ");
-            string pname = Console.ReadLine();
+            string pname = Console.ReadLine() ?? "";
             if (pname.ToLower() == "done") break;
 
             var product = products.Find(p => p.Name == pname);
@@ -201,11 +200,11 @@ class Program
     static void ViewOrders()
     {
         Console.Write("Enter Customer Name: ");
-        string name = Console.ReadLine();
+        string name = Console.ReadLine() ?? "";
         while (string.IsNullOrEmpty(name))
         {
             Console.Write("Invalid Name. Re-enter: ");
-            name = Console.ReadLine();
+            name = Console.ReadLine() ?? "";
         }
         var filteredOrders = orders.Where(o => o.CustomerName.Equals(name, StringComparison.OrdinalIgnoreCase)).ToList();
 
@@ -272,27 +271,27 @@ class Program
     static Employee GetEmployee()
     {
         Console.Write("Name: ");
-        var name = Console.ReadLine();
+        var name = Console.ReadLine() ?? "";
         while (string.IsNullOrEmpty(name))
         {
             Console.Write("Invalid Name. Re-enter: ");
-            name = Console.ReadLine();
+            name = Console.ReadLine() ?? "";
         }
 
         Console.Write("Email: ");
-        var email = Console.ReadLine();
+        var email = Console.ReadLine() ?? "";
         while (!ValidateEmail(email))
         {
             Console.Write("Invalid email. Re-enter(xxx@xxx.xx): ");
-            email = Console.ReadLine();
+            email = Console.ReadLine() ?? "";
         }
 
         Console.Write("Phone (10 digits): ");
-        var phone = Console.ReadLine();
+        var phone = Console.ReadLine() ?? "";
         while (!ValidatePhone(phone))
         {
             Console.Write("Invalid phone. Re-enter: ");
-            phone = Console.ReadLine();
+            phone = Console.ReadLine() ?? "";
         }
         return new Employee { Name = name, Email = email, Phone = phone };
     }
@@ -336,20 +335,20 @@ class Program
         if (emp != null)
         {
             Console.Write("New Email: ");
-            var Email = Console.ReadLine();
+            var Email = Console.ReadLine() ?? "";
             while (!ValidateEmail(Email))
             {
                 Console.Write("Invalid email. Re-enter(xxx@xxx.xx): ");
-                Email = Console.ReadLine();
+                Email = Console.ReadLine() ?? "";
             }
             emp.Email = Email;
 
             Console.Write("New Phone(10 digits): ");
-            var phone = Console.ReadLine();
+            var phone = Console.ReadLine() ?? "";
             while (!ValidatePhone(phone))
             {
                 Console.Write("Invalid phone. Re-enter: ");
-                phone = Console.ReadLine();
+                phone = Console.ReadLine() ?? "";
             }
             emp.Phone = phone;
         }
@@ -366,7 +365,7 @@ class Program
         while (string.IsNullOrEmpty(name))
         {
             Console.Write("Invalid Name. Re-enter: ");
-            name = Console.ReadLine();
+            name = Console.ReadLine() ?? "";
         }
 
         var prod = products.Find(p => p.Name == name);
@@ -388,7 +387,12 @@ class Program
     static void DeleteEmployee()
     {
         Console.Write("Enter Employee Name to delete: ");
-        string name = Console.ReadLine();
+        string name = Console.ReadLine() ?? "";
+        while (string.IsNullOrEmpty(name))
+        {
+            Console.Write("Invalid Name. Re-enter: ");
+            name = Console.ReadLine() ?? "";
+        }
         var emp = employees.Find(e => e.Name == name);
         if (emp != null) employees.Remove(emp);
     }
@@ -396,7 +400,12 @@ class Program
     static void DeleteProduct()
     {
         Console.Write("Enter Product Name to delete: ");
-        string name = Console.ReadLine();
+        string name = Console.ReadLine() ?? "";
+        while (string.IsNullOrEmpty(name))
+        {
+            Console.Write("Invalid Name. Re-enter: ");
+            name = Console.ReadLine() ?? "";
+        }
         var prod = products.Find(p => p.Name == name);
         if (prod != null) products.Remove(prod);
     }
