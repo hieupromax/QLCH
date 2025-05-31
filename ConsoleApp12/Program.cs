@@ -409,4 +409,5 @@ class Program
         var prod = products.Find(p => p.Name == name);
         if (prod != null) products.Remove(prod);
     }
+    //
 }
